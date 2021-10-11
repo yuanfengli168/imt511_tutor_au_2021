@@ -1,0 +1,57 @@
+# FAQ for IMT511 in Autumn 2021
+
+- Date: Fall 2021
+- Tutor: Yuanfeng Li (Jacky Li)
+
+1. **Homework submission**:
+
+   Question:
+
+   If I've tested all my Module 1 exercise files and all have passed,There is no further action on my part for submission right?
+
+   Answer:
+
+   Correct!
+   Please follow professor's guidance in this [link](https://canvas.uw.edu/courses/1479816/pages/completing-assignments-in-rstudio)
+
+1. **variable name** & quotation mark:
+
+   Can we have a single quotation mark around the variable name?
+
+   ```
+   line1: 'name' <- "Jacky"
+   line2: "name" <- "imt511"
+   line3: name <- "Best"
+
+       Answer: please not use any quotation marks around variable names! The code in line3 is recommended.
+
+   ```
+
+   Please follow the tidyverse style guide, [link](https://style.tidyverse.org/)
+
+1. **Failures** & don't know why:
+
+   Question:
+   
+   My function returns the correct string, why I am still getting an error?
+
+   ```
+   # R tests looking for:
+   line1: "String 1 and String 2 have equal length."
+
+   # Your return:
+   line2:"String one and String two have equal length"
+
+   # they are not the same string for test case
+   ```
+
+   Answer:
+
+   The tests you are running are strict, and they are looking for exactly the same format which the question provided.
+
+   In most cases, line1 and line 2 are diffrent, and please pay attention to special characters you used, such as a extra space/different quotation mark/different input keyboard/etc.
+
+   All of these can return a failure, even though the rest of your returns are identical to the correct answer.
+
+
+Updating...101021
