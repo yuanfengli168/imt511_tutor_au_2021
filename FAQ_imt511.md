@@ -53,5 +53,29 @@
 
    All of these can return a failure, even though the rest of your returns are identical to the correct answer.
 
+1. **Check** before you run:
+   
+   Some times you might make some really simple mistakes. If you don't double check them before you run your program, you will having troubles. There are 2 common errors that even the best programmers might make:
+
+   ```
+   line1: fraction <- function(numerator, denominator) {
+   line2:   return(numerator/demominator
+          }
+
+   # Typo between denominator(line1) and demominator(line2)
+   # Missing parenthesis. 
+
+   # the correct one should look like this: 
+   line1: fraction <- function(numerator, denominator) {
+   line2:   return(numerator/denominator)
+          }
+
+   ```
+   Typo are really common error that everyone might make, in order to prevent this type of error. 
+
+   Missing Punctuation marks are common too, such as missing parenthesis, square brackets, curly braces, etc. 
+
+   Please double check if you make any of this mistakes when the certain error appears. 
+
 
 Updating...101021
