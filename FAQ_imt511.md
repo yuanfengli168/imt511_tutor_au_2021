@@ -32,7 +32,7 @@
 1. **Failures** & don't know why:
 
    Question:
-   
+
    My function returns the correct string, why I am still getting an error?
 
    ```
@@ -54,7 +54,7 @@
    All of these can return a failure, even though the rest of your returns are identical to the correct answer.
 
 1. **Check** before you run:
-   
+
    Some times you might make some really simple mistakes. If you don't double check them before you run your program, you will having troubles. There are 2 common errors that even the best programmers might make:
 
    ```
@@ -63,19 +63,40 @@
           }
 
    # Typo between denominator(line1) and demominator(line2)
-   # Missing parenthesis. 
+   # Missing parenthesis.
 
-   # the correct one should look like this: 
+   # the correct one should look like this:
    line1: fraction <- function(numerator, denominator) {
    line2:   return(numerator/denominator)
           }
 
    ```
-   Typo are really common error that everyone might make, in order to prevent this type of error. 
 
-   Missing Punctuation marks are common too, such as missing parenthesis, square brackets, curly braces, etc. 
+   Typo are really common error that everyone might make, in order to prevent this type of error.
 
-   Please double check if you make any of this mistakes when the certain error appears. 
+   Missing Punctuation marks are common too, such as missing parenthesis, square brackets, curly braces, etc.
 
+   Please double check if you make any of this mistakes when the certain error appears.
 
-Updating...101021
+1. Mini CheatSheet for DataFrames functions:
+
+   ```
+   # nrow(), ncol(), dim(), colnames(), rownames()
+   # examples:
+
+   # Create the same data frame as above
+   my_data <­ data.frame(name, height, weight, stringsAsFactors = F)
+   # Describe the structure of the data frame
+   nrow(my_data) # [1] 5
+   ncol(my_data) # [1] 3
+   dim(my_data) # [1] 5 3
+   colnames(my_data) # [1] "name" "height" "weight"
+   rownames(my_data) # [1] "1" "2" "3" "3" "5"
+
+   # Create a vector of new column names
+   new_col_names <­ c("first_name", "how_tall", "how_heavy")
+   # Assign that vector to be the vector of column names
+   colnames(my_data) <­ new_col_names
+   ```
+
+Updating...102821
