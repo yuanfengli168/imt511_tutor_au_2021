@@ -78,7 +78,7 @@
 
    Please double check if you make any of this mistakes when the certain error appears.
 
-1. Mini CheatSheet for DataFrames functions:
+1. **Mini CheatSheet for DataFrames functions**:
 
    ```
    # nrow(), ncol(), dim(), colnames(), rownames()
