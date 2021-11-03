@@ -132,3 +132,168 @@ see the barplot here
 ![barplot 1_1](./barplot_1_1.png)
 
 Excellent! You have partitioned the task into independent pieces using “lapply()” (an alternative is to use a “for” loop). The function “max_frequency()” is repeatedly applied to a different part of the data, namely one letter of the alphabet.
+
+## Part 2 of 1 chapter 110221##
+
+**review of last class**
+
+- things I missed:
+  1. Embarrassinly parallel applications - means so easy to make it in parrallel
+  2.
+  3. I have Learned how to break code into independent pieces
+
+**New contents**:
+
+1. at least two cores, CPUs,
+
+- multiprocessor
+- cluster of computers
+
+2. Memory:
+
+- shared memory
+
+  - time efficient
+
+- distributed memory
+  - messaging passing software (can run on both)
+  - independent of underlying hardware
+
+3. Programming paradigms
+
+- Master - worker model
+- Map-reduce paradigm
+  - applications for distributed data
+  - Hadoop, Spark
+  - scalable data process in R (Dc class)
+
+4. this course focus on Master - worker model
+
+- can solve last class' challenges, one core to be master and distribute tasks to other cores as workers, Master - worker model is extremely well suited for embaraasinly parrallel applications.
+
+```
+initialize.rng()
+for (it in 1:N) result[it] <- myfunc(...)
+process(result, ...)
+```
+
+**Practice**
+
+1. A simple embarrassingly parallel application
+   As a simple example of an embarrassingly parallel statistical application, we will repeatedly compute the mean of a set of normally distributed random numbers. For now, you will process it sequentially using a for loop, and the sapply() function.
+
+In general, we recommend to implement any task that will be repeatedly applied to data as a function. Here, the function will be called mean_of_rnorm(). It generates random numbers with rnorm(), then computes their mean.
+
+The objects n_numbers_per_replicate (set to 10000) and n_replicates (set to 50) have been created for you and determine the length of the random numbers vector and how many times the task is repeated, respectively.
+
+1.1 instructions:
+Complete the definition of a function, mean_of_rnorm, to calculate normally distributed random numbers.
+The function should take one argument: n .
+Draw random numbers by calling rnorm(), passing it the mean_of_rnorm argument n and assigning the result to random_numbers.
+Calculate the mean of the random numbers.
+Try the function by calling it, setting n to 100.
+
+1.2 instru:
+In this example, you'll call mean_of_rnorm() many times (sequentially) using a for loop.
+
+To store the result, create a vector of the value NA, rep()eated n_replicates times.
+For reproducibility, use set.seed() to set the random number generation seed to 123.
+Define a for loop, with variable iter counting from 1 to n_replicates.
+Inside the loop, set result[iter] to the result of mean_of_rnorm(), called with n_numbers_per_replicate.
+Run the histogram code to see the results.
+
+1.3:
+In this example, you'll use the apply-like syntax.
+
+Create a vector of n_numbers_per_replicate, repeated n_replicates times.
+Call mean_of_rnorm() repeatedly using sapply().
+Pass the vector of n.
+The function to call is mean_of_rnorm (without parentheses).
+Run the histogram code to see the results.
+
+```
+<!-- 1.1 code: -->
+# Complete the function definition
+mean_of_rnorm <- function(n) {
+  # Generate normally distributed random numbers
+  random_numbers <- rnorm(n)
+  # Calculate the mean of the random numbers
+  mean(random_numbers)
+}
+
+# Try it out
+mean_of_rnorm(100)
+
+
+## 1.2 code
+# From previous step
+mean_of_rnorm <- function(n) {
+  random_numbers <- rnorm(n)
+  mean(random_numbers)
+}
+
+# Create a vector to store the results
+result <- c()
+
+# Set the random seed to 123
+set.seed(123)
+
+# Set up a for loop with iter from 1 to n_replicates
+for (iter in 1:n_replicates) {
+  # Call mean_of_rnorm with n_numbers_per_replicate
+  result[iter] <- mean_of_rnorm(n_numbers_per_replicate)
+}
+
+# View the result
+hist(result)
+```
+
+- result in 1_2 barplot:
+  ![barplot 1_1](./barplot_1_2.png)
+- result in 1_2_3 barplot:
+  ![barplot 1_1](./barplot_1_2_2.png)
+- result in 1_2_3 barplot:
+  ![barplot 1_1](./learned_rep.png)
+
+2. exercise:
+
+- demographic project through the course
+  Contents:
+  Probabilistic projection of migration (setup)
+  We'll now introduce a demographic model to be used throughout the course. It projects net migration rates via an autoregressive model (AR1). It is a typical example of an embarrassingly parallel application where a set of estimated parameters is used repeatedly for prediction. In an AR1, a future value is dependent on the past value. The process has a long term mean (mu), a rate of convergence (phi) to mu, and an error term with standard deviation (sigma). You do not need to know details of the modelling.
+
+We have simulated 1000 samples of these three parameters (dataset ar1est) and will use it to project the future distribution of migration rates. Starting from an initial rate (rate0), each row of ar1est can be used to generate a block of migration trajectories (using function ar1_block_of_trajectories()). This process is shown in the image below (where ar1_block_of_trajectories() is abbreviated with ar1_block()). Combining blocks from all rows gives the final migration distribution.
+![barplot 1_1](./migration_setup.png)
+
+Your job in this exercise is to explore the function ar1_block_of_trajectories() (type ar1_block_of_trajectories in your console). Its argument id determines which row of ar1est to use. What type of object does the function return and what do the function arguments traj_len and block_size correspond to in the function output?
+
+- Possible Answers
+
+1. Matrix where argument traj_len corresponds to rows and block_size corresponds to columns.
+
+2. Matrix where traj_len corresponds to columns and block_size corresponds to rows.
+
+3. List of vectors where traj_len corresponds to list length and block_size corresponds to each vector length.
+
+Submit Answer
+
+**Correct Answer**:
+- the correct one is the 2nd!
+Bravo! traj_len is the length of migration trajectories (or the number of time points in the projection). Each trajectory is stored as a row and the number of rows is determined by the argument block_size. In the next exercise you will be able to visualize the trajectories
+
+
+
+- Exercise 3: 
+Probabilistic projection of migration
+Here, we'll continue the previous application. The 1000 sets of estimates in ar1est is a result of an estimation using migration data for the United States. The task is to project the future distribution of the US migration rate for 15 time points using the whole estimation dataset instead of just one row. You will generate a set of 10000 trajectories of length 15, each of which makes use of one parameter set, thus each parameter row is re-used 10 times. You will also visualize the results using a preloaded function show_migration().
+
+3.1 Instructions:
+
+
+
+
+```
+# The name of the rbind R function stands for row-bind. The rbind # #function can be used to combine several vectors, matrices and/or data #frames by rows.Apr 10, 2020
+
+
+```
