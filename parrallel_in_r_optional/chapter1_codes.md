@@ -251,7 +251,7 @@ hist(result)
 - result in 1_2 barplot:
   ![barplot 1_1](./barplot_1_2.png)
 - result in 1_2_3 barplot:
-  ![barplot 1_1](./barplot_1_2_2.png)
+  ![barplot 1_1](./1_2_2.png)
 - result in 1_2_3 barplot:
   ![barplot 1_1](./learned_rep.png)
 
@@ -278,22 +278,40 @@ Your job in this exercise is to explore the function ar1_block_of_trajectories()
 Submit Answer
 
 **Correct Answer**:
+
 - the correct one is the 2nd!
-Bravo! traj_len is the length of migration trajectories (or the number of time points in the projection). Each trajectory is stored as a row and the number of rows is determined by the argument block_size. In the next exercise you will be able to visualize the trajectories
+  Bravo! traj_len is the length of migration trajectories (or the number of time points in the projection). Each trajectory is stored as a row and the number of rows is determined by the argument block_size. In the next exercise you will be able to visualize the trajectories
 
+- Exercise 3:
+  Probabilistic projection of migration
+  Here, we'll continue the previous application. The 1000 sets of estimates in ar1est is a result of an estimation using migration data for the United States. The task is to project the future distribution of the US migration rate for 15 time points using the whole estimation dataset instead of just one row. You will generate a set of 10000 trajectories of length 15, each of which makes use of one parameter set, thus each parameter row is re-used 10 times. You will also visualize the results using a preloaded function show_migration().
 
-
-- Exercise 3: 
-Probabilistic projection of migration
-Here, we'll continue the previous application. The 1000 sets of estimates in ar1est is a result of an estimation using migration data for the United States. The task is to project the future distribution of the US migration rate for 15 time points using the whole estimation dataset instead of just one row. You will generate a set of 10000 trajectories of length 15, each of which makes use of one parameter set, thus each parameter row is re-used 10 times. You will also visualize the results using a preloaded function show_migration().
-
-3.1 Instructions:
-
-
-
+  3.1 Instructions:
 
 ```
 # The name of the rbind R function stands for row-bind. The rbind # #function can be used to combine several vectors, matrices and/or data #frames by rows.Apr 10, 2020
+# From previous step
+
+ar1_multiple_blocks_of_trajectories <- function(ids, ...) {
+  trajectories_by_block <- lapply(ids, ar1_block_of_trajectories, ...)
+  do.call(rbind, trajectories_by_block)
+}
+
+<!-- Define trajectory IDs as a sequence from 1 to the number of blocks. That is, the number of rows in ar1est. -->
+# Create a sequence from 1 to number of blocks
+traj_ids <- seq(1, nrow(ar1est))
 
 
+<!-- Apply ar1_multiple_blocks_of_trajectories() to traj_ids with 0.015 as rate0, block size 10, and 15 time periods. -->
+# Generate trajectories for all rows of the estimation dataset
+trajs <- ar1_multiple_blocks_of_trajectories(
+  ids = traj_ids, rate0 = 0.015,
+  block_size = 10, traj_len = 15
+)
+
+<!-- Call show_migration() on trajs. -->
+# Show results
+show_migration(trajs)
 ```
+
+![barplot 1_1](./2-4.png)
